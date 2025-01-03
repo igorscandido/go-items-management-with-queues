@@ -1,0 +1,6 @@
+rabbitmq:
+  user: rabbitmq
+  password: rabbitmq
+  address: rabbitmq
+  port: 5672
+  vhost: /
