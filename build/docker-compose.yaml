@@ -42,6 +42,8 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    networks:
+      - application-network
 
   database:
     image: postgres:15
@@ -70,10 +72,13 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    networks:
+      - application-network
     ports:
       - "5050:80"
     depends_on:
       - database
+
 volumes:
   database-volume:
   phpadmin-volume:
