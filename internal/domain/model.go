@@ -2,7 +2,6 @@ package domain
 
 import (
 	"encoding/json"
-	"log"
 )
 
 type Item struct {
@@ -16,8 +15,15 @@ type Item struct {
 func (item *Item) ToJson() string {
 	data, err := json.Marshal(item)
 	if err != nil {
-		log.Printf("Error converting to JSON: %v", err)
 		return ""
 	}
 	return string(data)
+}
+
+func (item *Item) FromJson(data string) error {
+	err := json.Unmarshal([]byte(data), item)
+	if err != nil {
+		return err
+	}
+	return nil
 }
