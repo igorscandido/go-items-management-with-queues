@@ -7,16 +7,30 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-type rabbitMQ struct {
+type database struct {
 	User     string `yaml:"user"`
 	Password string `yaml:"password"`
-	Address  string `yaml:"address"`
+	Host     string `yaml:"host"`
 	Port     int    `yaml:"port"`
-	VHost    string `yaml:"vhost"`
+	DBName   string `yaml:"dbname"`
+	Driver   string `yaml:"driver"`
+}
+
+type rabbitMQ struct {
+	User        string `yaml:"user"`
+	Password    string `yaml:"password"`
+	Address     string `yaml:"address"`
+	Port        int    `yaml:"port"`
+	VHost       string `yaml:"vhost"`
+	RetryPolicy struct {
+		MaxRetries int `yaml:"max-retries"`
+		Interval   int `yaml:"interval"`
+	} `yaml:"retry-policy"`
 }
 
 type Configs struct {
 	RabbitMQ rabbitMQ `yaml:"rabbitmq"`
+	Database database `yaml:"database"`
 }
 
 func NewConfigs() *Configs {

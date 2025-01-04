@@ -1,6 +1,17 @@
+database:
+  user: postgres
+  password: postgres
+  host: database
+  port: 5432
+  dbname: management
+  driver: postgres
+
 rabbitmq:
   user: rabbitmq
   password: rabbitmq
   address: rabbitmq
   port: 5672
   vhost: /
+  retry-policy:
+    max-retries: 3
+    interval: 5
