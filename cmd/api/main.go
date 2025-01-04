@@ -15,19 +15,21 @@ func main() {
 	r := gin.Default()
 	configs := configs.NewConfigs()
 
-	rabbitmqConnection, err := pkgRabbitmq.NewRabbitMQConnection(configs)
-	if err != nil {
-		panic(fmt.Sprintf("Failed to connect to RabbitMQ: %v", err))
+	rabbitmqConnection := pkgRabbitmq.NewRabbitMQConnection(configs)
+	if rabbitmqConnection == nil {
+		panic("Failed to connect to RabbitMQ")
 	}
+	defer rabbitmqConnection.Close()
 
-	rabbitmqProducer, err := rabbitmq.NewRabbitMQProducer(rabbitmqConnection, "items")
+	rabbitmqProducer, err := rabbitmq.NewRabbitMQProducer(rabbitmqConnection, rabbitmq.InsertItemsQueue)
 	if err != nil {
 		panic(fmt.Sprintf("Failed to create RabbitMQ producer: %v", err))
 	}
+	defer rabbitmqProducer.CloseChannel()
 
-	itemsService := usecases.NewCreateItemUsecase(rabbitmqProducer)
+	itemsService := usecases.NewInsertItemUsecase(rabbitmqProducer)
 	handler := http.NewItemsHandler(itemsService)
 
-	r.POST("/items", handler.CreateItem)
+	r.POST("/items", handler.InsertItem)
 	r.Run(":8080")
 }

@@ -7,6 +7,10 @@ import (
 	"github.com/streadway/amqp"
 )
 
+const (
+	InsertItemsQueue = "insert_items_queue"
+)
+
 type rabbitMQProducer struct {
 	channel   *amqp.Channel
 	queueName string

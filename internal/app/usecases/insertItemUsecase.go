@@ -5,16 +5,16 @@ import (
 	"github.com/igorscandido/go-items-management-with-queues/internal/ports"
 )
 
-type createItemUsecase struct {
+type insertItemUsecase struct {
 	rabbitmqProducer ports.RabbitMQProducer
 }
 
-func NewCreateItemUsecase(rabbitmqProducer ports.RabbitMQProducer) ports.CreateItemUsecase {
-	return &createItemUsecase{
+func NewInsertItemUsecase(rabbitmqProducer ports.RabbitMQProducer) ports.InsertItemUsecase {
+	return &insertItemUsecase{
 		rabbitmqProducer,
 	}
 }
 
-func (u *createItemUsecase) PublishItemToQueue(item *domain.Item) error {
+func (u *insertItemUsecase) PublishItemToQueue(item *domain.Item) error {
 	return u.rabbitmqProducer.PublishMessage(item.ToJson())
 }

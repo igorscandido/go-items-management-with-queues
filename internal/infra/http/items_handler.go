@@ -8,16 +8,16 @@ import (
 )
 
 type ItemsHandler struct {
-	createItemUsecase ports.CreateItemUsecase
+	createItemUsecase ports.InsertItemUsecase
 }
 
-func NewItemsHandler(createItemUsecase ports.CreateItemUsecase) *ItemsHandler {
+func NewItemsHandler(insertItemUsecase ports.InsertItemUsecase) *ItemsHandler {
 	return &ItemsHandler{
-		createItemUsecase,
+		insertItemUsecase,
 	}
 }
 
-func (h *ItemsHandler) CreateItem(c *gin.Context) {
+func (h *ItemsHandler) InsertItem(c *gin.Context) {
 	var dto CreateItemDTO
 	if err := c.ShouldBindJSON(&dto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
