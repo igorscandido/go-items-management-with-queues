@@ -15,3 +15,8 @@ rabbitmq:
   retry-policy:
     max-retries: 3
     interval: 5
+
+redis:
+  address: redis
+  port: 6379
+  password: redis
